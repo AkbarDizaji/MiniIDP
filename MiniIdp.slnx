@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MiniIdp.Tests/MiniIdp.Tests.csproj" />
+  <Project Path="MiniIdp/MiniIdp.csproj" />
+</Solution>

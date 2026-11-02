@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.14" />
+  </ItemGroup>
+
+  <!--
+    Templates/ contains the source of the *generated* services. It is copied, not compiled:
+    keep it out of this project's build, and keep runtime data out of the project too.
+  -->
+  <ItemGroup>
+    <Compile Remove="Templates/**;App_Data/**" />
+    <Content Remove="Templates/**;App_Data/**" />
+    <None Remove="App_Data/**" />
+  </ItemGroup>
+
+</Project>

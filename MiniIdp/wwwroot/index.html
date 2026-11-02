@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mini IDP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Mini IDP</h1>
+      <p class="tagline">
+        A local developer platform: generate a .NET API from a template, build it into a Docker image,
+        and run it as a container on <code>127.0.0.1</code>.
+      </p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="create-heading">
+      <h2 id="create-heading">Create a service</h2>
+      <form id="create-form" novalidate>
+        <label for="service-name">Service name</label>
+        <div class="form-row">
+          <input id="service-name" name="name" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="orders-api" maxlength="30" required
+                 aria-describedby="name-hint create-error">
+          <button id="create-button" type="submit" class="button primary">Create Service</button>
+        </div>
+        <p id="name-hint" class="hint">3–30 characters: lowercase letters, digits and hyphens, starting with a letter.</p>
+        <p id="create-error" class="form-error" role="alert" hidden></p>
+      </form>
+
+      <ol class="pipeline" aria-label="What happens when you create a service">
+        <li><strong>Generate</strong> source code from the bundled .NET API template</li>
+        <li><strong>Build</strong> a Docker image from its Dockerfile</li>
+        <li><strong>Start</strong> a container on a free localhost port</li>
+        <li><strong>Check</strong> <code>/health</code> until it answers</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="services-heading">
+      <div class="section-header">
+        <h2 id="services-heading">Services</h2>
+        <p id="connection-status" class="connection" role="status"></p>
+      </div>
+
+      <p id="loading" class="muted">Loading services…</p>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <h3>No services yet</h3>
+        <p>
+          Type a name such as <code>orders-api</code> above and press <strong>Create Service</strong>.
+          The first build downloads the .NET base images, so it can take a minute or two.
+        </p>
+      </div>
+
+      <ul id="service-list" class="service-list" aria-live="polite"></ul>
+    </section>
+
+    <section id="logs-panel" class="card logs-panel" aria-labelledby="logs-heading" hidden>
+      <div class="section-header">
+        <h2 id="logs-heading">Logs</h2>
+        <button id="close-logs" type="button" class="button">Close</button>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Log source">
+        <button type="button" role="tab" id="tab-provisioning" aria-controls="log-output"
+                aria-selected="true" data-source="provisioning">Provisioning</button>
+        <button type="button" role="tab" id="tab-runtime" aria-controls="log-output"
+                aria-selected="false" tabindex="-1" data-source="runtime">Container (latest 200 lines)</button>
+      </div>
+      <pre id="log-output" class="log-output" role="tabpanel" tabindex="0"
+           aria-labelledby="tab-provisioning"></pre>
+    </section>
+  </main>
+
+  <!-- One service card. app.js clones it once per service and then only updates its fields. -->
+  <template id="service-template">
+    <li class="service">
+      <div class="service-main">
+        <div class="service-title">
+          <h3 class="service-name"></h3>
+          <span class="badge"></span>
+        </div>
+        <p class="service-meta">Created <time class="created"></time></p>
+        <ol class="steps" aria-label="Provisioning progress">
+          <li data-step="Queued">Queued</li>
+          <li data-step="Generating">Generating</li>
+          <li data-step="Building">Building</li>
+          <li data-step="Starting">Starting</li>
+          <li data-step="Running">Running</li>
+        </ol>
+        <p class="service-url" hidden><a target="_blank" rel="noopener"></a></p>
+        <p class="service-error" hidden></p>
+        <p class="action-error" role="alert" hidden></p>
+      </div>
+      <div class="service-actions">
+        <button type="button" class="button logs-button">View Logs</button>
+        <button type="button" class="button danger delete-button">Delete</button>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+bin/
+obj/
+MiniIdp/App_Data/
+*.user
+.vs/
+.DS_Store
+.idea/
